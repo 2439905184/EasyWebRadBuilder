@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyWebRadBuilder</title>
+    <style>
+        .app
+        {
+            background-color: blue;
+            height: 300px;
+        }
+        .right-panel
+        {
+            background-color: gray;
+            width: 140px;
+            height: 100%;
+            position: fixed;
+            right: 0px;
+        }
+        .up-ruler
+        {
+            height: 50px;
+            width: 520px ;
+            background-color: bisque;
+        }
+        .element-box
+        {
+            color: white;
+            border: solid 2px grey;
+            /* width: fit-content; */
+            /* 测试用 */
+            width: 300px;
+        }
+    </style>
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script>
+        // div element
+        var currentElementNode = ""
+        // 等待重构
+        // 枚举
+        // enum
+        var direction = ["left","center","right"]
+        // 编辑器实时操作缓冲数组
+        // 数据核心
+        // 每一个元素对应一个css数据缓冲数组，编辑器
+        var styleBuffer = []
+        // 编辑器核心函数之一 选择
+        function selectElementNode(p_self)
+        {
+            currentElementNode = p_self
+            currentElementNode.style = "border: solid 2px red;"
+            console.log("当前选中元素：")
+            console.log(currentElementNode)
+        }
+        // 编辑器核心函数之二 文字内排版
+        function setTextAlign(p_position)
+        {
+            console.log("当前选中属性的")
+            console.log(p_position)
+            if(p_position == "left")
+            {
+                currentElementNode.style = "text-align:left"
+            }
+            if(p_position == "center")
+            {
+                currentElementNode.style = "text-align:center;"
+            }
+            if(p_position == "right")
+            {
+                currentElementNode.style = "text-align:right;"
+            }
+        }
+        // 编辑器核心函数之三 导出设计
+        // 设计完成之后，直接使用F12开发人员工具，找到<div id=design-editor></div>
+        // 右键，edit as html 然后ctrl cv 保存文件html，->发给程序员
+        function exportHtml()
+        {
+            var rootElement = document.getElementById("design-editor")
+            var htmls = rootElement.children
+            console.log(htmls)
+            for(var i = 0; i<htmls.length;i++)
+            {
+                var each = htmls[i]
+                console.log(each)
+            }
+            
+        }
+        // $(function()
+        // {
+        //     $(".element-box").click(function()
+        //     {
+        //         console.log($(this))
+        //         $(this)[0].css("color","red;")
+        //     })
+        // })
+    </script>
+</head>
+<body>
+    <div class="app">
+        <!-- 上标尺 -->
+        <div>
+            <!-- 拖拽并松开，显示px距离 -->
+            <div class="up-ruler">||||||||||||</div>
+            <!-- 前期由设计师设计，后期交给程序员进行组件拼接 -->
+            <button onclick="exportHtml()">导出html基础文件</button>
+        </div>
+        <!-- 设计师面板 -->
+        <!-- 导出功能就是获取当前类为design-editor下面的所有节点和当前所有节点的css，并输出纯文本，请求浏览器下载html基础设计文件 -->
+        <div id="design-editor">
+            <div class="element-box" onclick="selectElementNode(this)">
+                外1
+                <!-- 遍历时候遇到问题 -->
+                <!-- 点击遮罩，点击穿透，html半底层，游戏引擎，cocos creator -->
+                <!-- <div class="element-box" onclick="selectElementNode(this)">
+                    内
+                </div> -->
+            </div>
+            <div class="element-box" onclick="selectElementNode(this)">
+                外2
+            </div>
+        </div>
+        
+        
+        <!-- stick粘贴布局 -->
+        <!-- 居中 居左 右 -->
+        <div class="right-panel">
+            <h2>相对于元素节点</h2>
+            <button>居左</button>
+            <button>居中</button>
+            <button>居右</button>
+            <h2>节点内的文字排版</h2>
+            <button onclick="setTextAlign('left')">居左</button>
+            <button onclick="setTextAlign('center')">居中</button>
+            <button onclick="setTextAlign('right')">居右</button>
+        </div>
+    </div>
+
+</body>
+</html>
